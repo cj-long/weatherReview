@@ -1,1 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Weather Viewer</title>
+    </head>
+    <body>
+        <h1>ts some stuff idk yet</h1>
+        <p>son</p>
+        <input id="city" placeholder="Enter a city">
+        <button id="searchBtn">
+            Search
+        </button>
+        <div id="result"></div>
+        <script>
+            window.onerror = function (message, source, line) {
+                alert("Error: " + message + " (line " + line + ")");
+            };
 
+            const button = document.querySelector("#searchBtn");
+            const cityInput = document.querySelector("#city");
+            const result = document.querySelector("#result");
+
+            button.addEventListener("click", async function () {
+                result.textContent = "You typed: " + cityInput.value;
+
+                const url = "https://geocoding-api.open-meteo.com/v1/search?name=" + cityInput.value;
+                const response = await fetch(url);
+                const data = await response.json();
+                const place = data.results[0];
+                const country = place.country || "Unknown";
+                const city = place.name || "Unknown";
+                const timezone = place.timezone || "Unknown"; 
+                const admin1 = place.admin1 || "Unknown";
+                result.textContent = `${city}, ${admin1}, ${country}\nTimezone: ${timezone}`;
+                if (!data.results) {
+                    result.textContent = "City not found";
+                    return;
+                }
+            });
+
+            const weatherURL = "https://api.open-meteo.com/v1/forecast?latitude=" + place.latitude + "&longitude=" + place.longitude + "&current=temperature_2m,weather_code";
+            const wResponse = await fetch(weatherURL);
+            const wData = await wRepsonse.json();
+        </script>
+    </body>
+</html>
